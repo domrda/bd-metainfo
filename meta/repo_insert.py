@@ -1,7 +1,8 @@
 import psycopg2
 from metainfo import MetaInformation
 
-dbs = ['bd', 'bd2']
+# dbs = ['bd', 'bd2']
+dbs = ['quest']
 repo = 'repo'
 conn = psycopg2.connect("dbname=repo user=postgres")
 cur = conn.cursor()
@@ -21,15 +22,8 @@ for db in dbs:
                         "table_name=%s AND "
                         "attr_name=%s",
                         (True, pos, database_meta.name, table_meta.name, name))
-        for (s, sf, t, tf) in table_meta.relations:
-            cur.execute("SELECT id from bd "
-                        "WHERE database_name=%s AND "
-                        "table_name=%s AND "
-                        "attr_name=%s", (database_meta.name, t, tf))
-            id = cur.fetchone()
-            cur.execute("UPDATE bd SET link=%s "
-                        "WHERE database_name=%s AND "
-                        "table_name=%s AND "
-                        "attr_name=%s",
-                        (id, database_meta.name, s, sf))
+    for record in database_meta.relations:
+        cur.execute("INSERT INTO relations (unique_name, tableA, fieldA, tableB, fieldB, pos) "
+                    "VALUES (%s, %s, %s, %s, %s, %s)",
+                    record)
         conn.commit()
