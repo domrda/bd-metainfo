@@ -18,6 +18,7 @@ CREATE TABLE table2 (
     field2 integer,
     field3 integer,
     field4 integer,
+    uniqueTable2Field integer,
 
     PRIMARY KEY(id),
     UNIQUE(field1, field2),
@@ -31,6 +32,7 @@ CREATE TABLE table1 (
     field2 integer,
     field3 integer,
     field4 integer,
+    uniqueTable1Field integer,
 
     PRIMARY KEY(id),
     UNIQUE(field1, field2),
@@ -42,3 +44,6 @@ CREATE TABLE table1 (
     FOREIGN KEY (field3, field4, field1) REFERENCES table2(field2, field3, field4),
     FOREIGN KEY (field4) REFERENCES table2(field1)
 );--#
+
+INSERT INTO table2 (id, field1, field2, field3, field4, uniqueTable2Field) VALUES (1, 1, 1, 1, 1, 1), (2, 2, 2, 2, 2, 2), (3, 3, 3, 3, 3, 3);
+INSERT INTO table1 (id, field1, field2, field3, field4, uniqueTable1Field) VALUES (1, 1, 1, 1, 1, 1), (2, 2, 2, 2, 2, 2), (3, 3, 3, 3, 3, 3), (4, 4, 4, 4, 4, 4);
